@@ -1,0 +1,7 @@
+Get files by using fetch/pull
+
+Submit files by 
+	- Selecting commit (top)
+	- Selecting all unstaged files (left)
+	- Hitting commit (bottom right)
+	- Push files (top)
