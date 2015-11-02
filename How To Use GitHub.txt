@@ -5,3 +5,4 @@ Submit files by
 	- Selecting all unstaged files (left)
 	- Hitting commit (bottom right)
 	- Push files (top)
+	- Select branch "master"
