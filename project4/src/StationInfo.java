@@ -3,7 +3,7 @@ import java.util.GregorianCalendar;
 
 /**
  * 
- * @author CS2334.  Modified by: ?????
+ * @author CS2334.  Modified by: David Jones
  * <P>
  * Date: 2015-10-19 <BR>
  * Project 3
@@ -120,34 +120,66 @@ public class StationInfo {
 		return dataSet.getMinimumStat(variableId);
 	}
 	
+	/**
+	 * The station's ID
+	 * @return The 4 character string that represents this station's ID
+	 */
 	public String getStationId() {
 		return stationId;
 	}
 
+	/**
+	 * The station's name
+	 * @return The full string representation of the station's name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * The city in which the station exists
+	 * @return String - The name of the city where the station is
+	 */
 	public String getCity() {
 		return city;
 	}
 
+	/**
+	 * The latitude of the station's location
+	 * @return double - the station's latitude
+	 */
 	public double getNlat() {
 		return nlat;
 	}
 
+	/**
+	 * The longitude of the station's location
+	 * @return double - the station's longitude
+	 */
 	public double getElon() {
 		return elon;
 	}
 
+	/**
+	 * The date the station started recording
+	 * @return GregorianCalendar - The starting date of the station's recording
+	 */
 	public GregorianCalendar getDatc() {
 		return datc;
 	}
 
+	/**
+	 * The date the station stopped recording
+	 * @return GregorianCalendar - The ending date of the staiton's recording
+	 */
 	public GregorianCalendar getDatd() {
 		return datd;
 	}
 
+	/**
+	 * The data set containing all of the station's data (in the form of DailyData objects)
+	 * @return DataSet - set of DailyData objects
+	 */
 	public DataSet getDataSet() {
 		return dataSet;
 	}
