@@ -1,0 +1,14 @@
+import javax.swing.JFrame;
+
+public class WeatherFrame extends JFrame {
+
+	private FileMenuBar fileMenuBar;
+	private SelectionPanel selectionPanel;
+	private DataPanel dataPanel;
+	private StationInfoList stationInfoList;
+	private DataInfoList dataInfoList;
+	
+	public WeatherFrame() {
+		
+	}
+}

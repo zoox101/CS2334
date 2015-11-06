@@ -1,0 +1,10 @@
+//TODO: complete implementation
+public class FileMenuBar {
+
+	/**
+	 * Constructor
+	 */
+	public FileMenuBar() {
+		
+	}
+}

@@ -1,0 +1,12 @@
+import javax.swing.JMenuBar;
+
+//TODO: complete implementation
+public class FileMenuBar extends JMenuBar {
+
+	/**
+	 * Constructor
+	 */
+	public FileMenuBar() {
+		
+	}
+}
