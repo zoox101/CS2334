@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * 
  * @author CS2334. Modified by: Will Booker, David Jones
@@ -11,6 +14,14 @@
 public class Driver {
 
 	public static void main(String[] args) {
-		WeatherFrame myFrame = new WeatherFrame();
+		try {
+			WeatherFrame myFrame = new WeatherFrame();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

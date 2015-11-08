@@ -1,3 +1,8 @@
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 public class WeatherFrame extends JFrame {
@@ -15,8 +20,10 @@ public class WeatherFrame extends JFrame {
 	
 	/**
 	 * Constructor
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public WeatherFrame() {
+	public WeatherFrame() throws FileNotFoundException, IOException {
 		//TODO: All of the frame properties are subject to change
 		setSize(800, 600);
 		setResizable(false);
@@ -28,7 +35,14 @@ public class WeatherFrame extends JFrame {
 		selectionPanel = new SelectionPanel();
 		dataPanel = new DataPanel();
 		
-		add(fileMenuBar);
+		//TODO: Determine the layout of the components (subject to change)
+		this.setJMenuBar(fileMenuBar);
+		
+		GridLayout layout = new GridLayout(1, 2);
+		this.setLayout(layout);
+		add(selectionPanel);
+		add(dataPanel);
+		
 		
 	
 		//leave setVisible to the last 

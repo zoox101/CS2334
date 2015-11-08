@@ -36,7 +36,6 @@ public class FileMenuBar extends JMenuBar {
 	 */
 	public FileMenuBar() {
 		// TODO: set display properties
-		this.setPreferredSize(new Dimension(800, 50));
 
 		// initialize fields
 		menu = new JMenu("File");

@@ -1,0 +1,61 @@
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+//TODO: complete implementation
+public class SelectionPanel  extends JPanel {
+
+	/** List containing the list station IDs */
+	private JList<String> stationList;
+	/** List containing all of the variables */
+	private JList<String> variableList;
+	/** List containing all the years in a data file */
+	private JList<String> yearList;
+	/** Models the year list. Used in the yearList constructor */
+	private DefaultListModel<String> yearListModel;
+	/** Array list containing int values of the data file's years */
+	private ArrayList<Integer> yearListValues;
+	
+	/** Scroll pane for navigating the station list */
+	private JScrollPane stationListScroller;
+	/** Scroll pane for navigating the variable list */
+	private JScrollPane variableListScroller;
+	/** Scroll pane for navigating the year list */
+	private JScrollPane yearListScroller;
+	
+	/** Label next to the station list */
+	private JLabel stationLabel;
+	/** Label next to the variable list */
+	private JLabel variableLabel;
+	/** Label next to the year list */
+	private JLabel yearListLabel;
+	
+	/**
+	 * Constructor
+	 */
+	public SelectionPanel() {
+		//TODO: set display properties
+		this.setBackground(new Color(0, 244, 0, 30));
+		
+		//initialize the components
+		stationLabel = new JLabel("Select Station:");
+		variableLabel = new JLabel("Select Variable:");
+		yearListLabel = new JLabel("Select Year(s):");
+		
+		
+		
+		//TODO: determine layout of this label component
+		GridLayout layout = new GridLayout(3, 2);
+		this.setLayout(layout);
+		
+		add(stationLabel);
+		add(variableLabel);
+		add(yearListLabel);
+	}
+}
