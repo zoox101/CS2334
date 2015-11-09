@@ -112,6 +112,7 @@ public class DataPanel extends JPanel {
 		variableUnitsField = new JTextField();
 		variableUnitsField.setEditable(false);
 		variableUnitsField.setColumns(15);
+		
 		//TODO:configure layout (subject to change)
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();

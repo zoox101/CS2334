@@ -12,7 +12,6 @@
 <fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
-<fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="javax.swing.JTextField"/>
 <fullyQualifiedTypeName name="javax.swing.JTextArea"/>
@@ -27,4 +26,6 @@
 <fullyQualifiedTypeName name="java.awt.Scrollbar"/>
 <fullyQualifiedTypeName name="javax.swing.event.ListSelectionListener"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>

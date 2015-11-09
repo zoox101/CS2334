@@ -65,7 +65,7 @@ public class SelectionPanel extends JPanel {
 	 * @throws FileNotFoundException
 	 */
 	public SelectionPanel() throws FileNotFoundException, IOException {
-		// TODO: set display properties
+		// TODO: set display properties of this panel
 		this.setBackground(new Color(0, 200, 0, 30));
 
 		// initialize the labels
@@ -106,6 +106,8 @@ public class SelectionPanel extends JPanel {
 			
 		});
 
+		//TODO: define yearListModel
+		
 		// TODO: determine the best way to load in the years from FileMenuBar,
 		// and populate the list and yearListValues accordingly
 		yearList = new JList<String>();
@@ -120,7 +122,7 @@ public class SelectionPanel extends JPanel {
 		});
 
 		// TODO: see if there is a way to make the scroll pane vertical, not
-		// horizontal
+		// horizontal (low priority)
 		Dimension scrollPaneDim = new Dimension(250, 150);
 		stationListScroller = new JScrollPane(stationList);
 		stationListScroller.setMinimumSize(scrollPaneDim);
@@ -129,7 +131,7 @@ public class SelectionPanel extends JPanel {
 		yearListScroller = new JScrollPane(yearList);
 		yearListScroller.setMinimumSize(scrollPaneDim);
 
-		// TODO: determine layout of this label component
+		// TODO: determine layout of this label component (subject to change)
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(10, 10, 10, 10);

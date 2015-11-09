@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -41,7 +43,7 @@ public class FileMenuBar extends JMenuBar {
 		menu = new JMenu("File");
 		menuOpen = new JMenuItem("Open Data File");
 		menuExit = new JMenuItem("Exit");
-		fileChooser = new JFileChooser();
+		fileChooser = new JFileChooser(new File("./data"));
 
 		// configure fileChooser
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -52,8 +54,13 @@ public class FileMenuBar extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Load the selected file using JFileChooser
-				fileChooser.showOpenDialog(FileMenuBar.this);
+				int returnValue = fileChooser.showOpenDialog(FileMenuBar.this);
+				if (returnValue == 0) {
+					// TODO If the user hits open, Load the selected file using JFileChooser
+				}
+				else if (returnValue == 1) {
+					//don't do anything
+				}
 			}
 
 		});
