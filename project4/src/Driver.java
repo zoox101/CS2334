@@ -1,6 +1,8 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 /**
  * 
  * @author CS2334. Modified by: Will Booker, David Jones
@@ -18,7 +20,9 @@ public class Driver {
 			WeatherFrame myFrame = new WeatherFrame();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, "File not found.", "Message", JOptionPane.OK_OPTION);
 			e.printStackTrace();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

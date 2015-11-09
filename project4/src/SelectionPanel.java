@@ -1,5 +1,9 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,9 +11,12 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * 
@@ -59,7 +66,7 @@ public class SelectionPanel extends JPanel {
 	 */
 	public SelectionPanel() throws FileNotFoundException, IOException {
 		// TODO: set display properties
-		this.setBackground(new Color(0, 244, 0, 30));
+		this.setBackground(new Color(0, 200, 0, 30));
 
 		// initialize the labels
 		stationLabel = new JLabel("Select Station:");
@@ -72,6 +79,15 @@ public class SelectionPanel extends JPanel {
 		stationList = new JList<String>(stationArray);
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		stationList.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 
 		// construct the dataInfo list and populate the variable list component
 		DataInfoList dataTranslationList = new DataInfoList("data/DataTranslation.csv");
@@ -80,26 +96,67 @@ public class SelectionPanel extends JPanel {
 		variableList = new JList<String>(variableArray);
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		variableList.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+			
+		});
 
 		// TODO: determine the best way to load in the years from FileMenuBar,
 		// and populate the list and yearListValues accordingly
 		yearList = new JList<String>();
+		yearList.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 
 		// TODO: see if there is a way to make the scroll pane vertical, not
 		// horizontal
+		Dimension scrollPaneDim = new Dimension(250, 150);
 		stationListScroller = new JScrollPane(stationList);
+		stationListScroller.setMinimumSize(scrollPaneDim);
 		variableListScroller = new JScrollPane(variableList);
+		variableListScroller.setMinimumSize(scrollPaneDim);
 		yearListScroller = new JScrollPane(yearList);
+		yearListScroller.setMinimumSize(scrollPaneDim);
 
 		// TODO: determine layout of this label component
-		GridLayout layout = new GridLayout(3, 2);
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 10, 10);
 		this.setLayout(layout);
 
-		add(stationLabel);
-		add(stationListScroller);
-		add(variableLabel);
-		add(variableListScroller);
-		add(yearListLabel);
-		add(yearListScroller);
+		c.gridx = 0;
+		c.gridy = 0;
+		add(stationLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 0;
+		add(stationListScroller, c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		add(variableLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		add(variableListScroller, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		add(yearListLabel, c);
+		
+		c.gridx = 1;
+		c.gridy = 2;
+		add(yearListScroller, c);
 	}
 }

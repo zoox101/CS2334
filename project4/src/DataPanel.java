@@ -1,7 +1,9 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -65,7 +67,7 @@ public class DataPanel extends JPanel {
 		//TODO: complete implementation
 		
 		//TODO: set display properties of the panel (subject to change)
-		this.setBackground(new Color(0, 0, 244, 30));
+		this.setBackground(new Color(0, 0, 200, 30));
 		
 		//initialize all of the components and set their properties
 		stationLabel = new JLabel("Station:");
@@ -76,32 +78,47 @@ public class DataPanel extends JPanel {
 		
 		averageVal = new JTextField();
 		averageVal.setEditable(false);
+		averageVal.setColumns(15);
 		maxDateField = new JTextField();
 		maxDateField.setEditable(false);
+		maxDateField.setColumns(15);
 		maxVal = new JTextField();
 		maxVal.setEditable(false);
+		maxVal.setColumns(15);
 		minDateField = new JTextField();
 		minDateField.setEditable(false);
+		minDateField.setColumns(15);
 		minVal = new JTextField();
 		minVal.setEditable(false);
+		minVal.setColumns(15);
 		stationCityField = new JTextField();
 		stationCityField.setEditable(false);
+		stationCityField.setColumns(15);
 		stationIdField = new JTextField();
 		stationIdField.setEditable(false);
+		stationIdField.setColumns(15);
 		stationNameField = new JTextField();
 		stationNameField.setEditable(false);
+		stationNameField.setColumns(15);
 		variableDescription = new JTextArea();
 		variableDescription.setEditable(false);
+		variableDescription.setColumns(15);
+		variableDescription.setRows(4);
+		variableDescription.setLineWrap(true);
+		variableDescription.setWrapStyleWord(true);
 		variableIdField = new JTextField();
 		variableIdField.setEditable(false);
+		variableIdField.setColumns(15);
 		variableUnitsField = new JTextField();
 		variableUnitsField.setEditable(false);
-		
+		variableUnitsField.setColumns(15);
 		//TODO:configure layout (subject to change)
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		layout.setConstraints(this, c);
 		this.setLayout(layout);
+		
+		c.insets = new Insets(10,10,10,10);
 		
 		c.gridx = 0;
 		c.gridy = 0;
