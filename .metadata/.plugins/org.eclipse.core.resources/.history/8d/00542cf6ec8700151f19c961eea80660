@@ -26,18 +26,15 @@ public class WeatherFrame extends JFrame {
 	public WeatherFrame() throws FileNotFoundException, IOException {
 		//TODO: All of the frame properties are subject to change
 		setSize(1000, 600);
-		setResizable(true);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//initialize all of the components
 		fileMenuBar = new FileMenuBar();
 		
-		//TODO: create the stationInfoList and dataInfoList by reading the files
-		stationInfoList = new StationInfoList("data/geoinfo.csv");
-		dataInfoList = new DataInfoList("data/DataTranslation.csv");
+		//create the stationInfoList and dataInfoList by reading the files
 		
-		//pass the station and data info list to the constructor of selection panel
 		selectionPanel = new SelectionPanel(stationInfoList, dataInfoList);
 		dataPanel = new DataPanel();
 		

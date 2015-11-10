@@ -122,7 +122,6 @@ public class SelectionPanel extends JPanel {
 		// horizontal (low priority)
 		Dimension scrollPaneDim = new Dimension(250, 150);
 		stationListScroller = new JScrollPane(stationList);
-		stationListScroller.setMinimumSize(scrollPaneDim);
 		variableListScroller = new JScrollPane(variableList);
 		variableListScroller.setMinimumSize(scrollPaneDim);
 		yearListScroller = new JScrollPane(yearList);

@@ -77,7 +77,6 @@ public class SelectionPanel extends JPanel {
 		populateStationList(stations);
 		populateVariableList(variables);
 		
-		//set some of the properties of stationList
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stationList.addListSelectionListener(new ListSelectionListener() {
@@ -90,7 +89,6 @@ public class SelectionPanel extends JPanel {
 
 		});
 		
-		//set some of the properties of variableList
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		variableList.addListSelectionListener(new ListSelectionListener() {

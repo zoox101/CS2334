@@ -35,7 +35,7 @@ public class WeatherFrame extends JFrame {
 		
 		//TODO: create the stationInfoList and dataInfoList by reading the files
 		stationInfoList = new StationInfoList("data/geoinfo.csv");
-		dataInfoList = new DataInfoList("data/DataTranslation.csv");
+		
 		
 		//pass the station and data info list to the constructor of selection panel
 		selectionPanel = new SelectionPanel(stationInfoList, dataInfoList);

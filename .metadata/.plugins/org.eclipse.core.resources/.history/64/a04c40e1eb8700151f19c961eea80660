@@ -64,7 +64,7 @@ public class SelectionPanel extends JPanel {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public SelectionPanel(StationInfoList stations, DataInfoList variables) throws FileNotFoundException, IOException {
+	public SelectionPanel() throws FileNotFoundException, IOException {
 		// TODO: set display properties of this panel
 		this.setBackground(new Color(0, 200, 0, 30));
 
@@ -73,11 +73,10 @@ public class SelectionPanel extends JPanel {
 		variableLabel = new JLabel("Select Variable:");
 		yearListLabel = new JLabel("Select Year(s):");
 
-		//create and populate the JList using the stations and variables lists
-		populateStationList(stations);
-		populateVariableList(variables);
-		
-		//set some of the properties of stationList
+		// construct the stationInfo list and populate the stationList component
+		StationInfoList geoInfoList = new StationInfoList("data/geoinfo.csv");
+		String[] stationArray = geoInfoList.getStationIds().toArray(new String[geoInfoList.getStationIds().size()]);
+		stationList = new JList<String>(stationArray);
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stationList.addListSelectionListener(new ListSelectionListener() {
@@ -85,12 +84,16 @@ public class SelectionPanel extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				// TODO Auto-generated method stub
-
+				
 			}
-
+			
 		});
-		
-		//set some of the properties of variableList
+
+		// construct the dataInfo list and populate the variable list component
+		DataInfoList dataTranslationList = new DataInfoList("data/DataTranslation.csv");
+		String[] variableArray = dataTranslationList.getVariableIds()
+				.toArray(new String[dataTranslationList.getVariableIds().size()]);
+		variableList = new JList<String>(variableArray);
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		variableList.addListSelectionListener(new ListSelectionListener() {
@@ -100,11 +103,11 @@ public class SelectionPanel extends JPanel {
 				// TODO Auto-generated method stub
 
 			}
-
+			
 		});
 
-		// TODO: define yearListModel
-
+		//TODO: define yearListModel
+		
 		// TODO: determine the best way to load in the years from FileMenuBar,
 		// and populate the list and yearListValues accordingly
 		yearList = new JList<String>();
@@ -113,9 +116,9 @@ public class SelectionPanel extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
-
+				
 			}
-
+			
 		});
 
 		// TODO: see if there is a way to make the scroll pane vertical, not
@@ -137,54 +140,25 @@ public class SelectionPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		add(stationLabel, c);
-
+		
 		c.gridx = 1;
 		c.gridy = 0;
 		add(stationListScroller, c);
-
+		
 		c.gridx = 0;
 		c.gridy = 1;
 		add(variableLabel, c);
-
+		
 		c.gridx = 1;
 		c.gridy = 1;
 		add(variableListScroller, c);
-
+		
 		c.gridx = 0;
 		c.gridy = 2;
 		add(yearListLabel, c);
-
+		
 		c.gridx = 1;
 		c.gridy = 2;
 		add(yearListScroller, c);
-	}
-
-	/**
-	 * This method, called by the constructor, takes the station ID field from
-	 * every StationInfo in the StationInfoList, puts it into an array, and then
-	 * populates the JList using this array
-	 * 
-	 * @param stations
-	 *            The list from which the Station IDs will come
-	 */
-	private void populateStationList(StationInfoList stations) {
-		// DONE: complete implementation
-		String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
-		stationList = new JList<String>(stationArray);
-	}
-
-	/**
-	 * This method, called by the constructor, takes the variable ID field from
-	 * every DataInfo in the DataInfoList, puts it into an array, and then
-	 * populates the JList using this array
-	 * 
-	 * @param variables
-	 *            The list from which the variable IDs will come
-	 */
-	private void populateVariableList(DataInfoList variables) {
-		// DONE: complete implementation
-		String[] variableArray = variables.getVariableIds()
-				.toArray(new String[variables.getVariableIds().size()]);
-		variableList = new JList<String>(variableArray);
 	}
 }

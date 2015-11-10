@@ -77,7 +77,6 @@ public class SelectionPanel extends JPanel {
 		populateStationList(stations);
 		populateVariableList(variables);
 		
-		//set some of the properties of stationList
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stationList.addListSelectionListener(new ListSelectionListener() {
@@ -90,7 +89,11 @@ public class SelectionPanel extends JPanel {
 
 		});
 		
-		//set some of the properties of variableList
+		// construct the dataInfo list and populate the variable list component
+		DataInfoList dataTranslationList = new DataInfoList("data/DataTranslation.csv");
+		String[] variableArray = dataTranslationList.getVariableIds()
+				.toArray(new String[dataTranslationList.getVariableIds().size()]);
+		variableList = new JList<String>(variableArray);
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		variableList.addListSelectionListener(new ListSelectionListener() {
@@ -168,8 +171,8 @@ public class SelectionPanel extends JPanel {
 	 *            The list from which the Station IDs will come
 	 */
 	private void populateStationList(StationInfoList stations) {
-		// DONE: complete implementation
-		String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
+		// TODO: complete implementation
+		String[] stationArray = stations.getStationIds().toArray(new String[geoInfoList.getStationIds().size()]);
 		stationList = new JList<String>(stationArray);
 	}
 
@@ -182,9 +185,6 @@ public class SelectionPanel extends JPanel {
 	 *            The list from which the variable IDs will come
 	 */
 	private void populateVariableList(DataInfoList variables) {
-		// DONE: complete implementation
-		String[] variableArray = variables.getVariableIds()
-				.toArray(new String[variables.getVariableIds().size()]);
-		variableList = new JList<String>(variableArray);
+		// TODO: complete implementation
 	}
 }

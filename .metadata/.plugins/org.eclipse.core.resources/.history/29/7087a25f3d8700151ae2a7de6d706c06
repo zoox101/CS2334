@@ -73,11 +73,8 @@ public class SelectionPanel extends JPanel {
 		variableLabel = new JLabel("Select Variable:");
 		yearListLabel = new JLabel("Select Year(s):");
 
-		//create and populate the JList using the stations and variables lists
+		// populate the stationList component and configure it
 		populateStationList(stations);
-		populateVariableList(variables);
-		
-		//set some of the properties of stationList
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stationList.addListSelectionListener(new ListSelectionListener() {
@@ -89,8 +86,9 @@ public class SelectionPanel extends JPanel {
 			}
 
 		});
-		
-		//set some of the properties of variableList
+
+		// populate the variable list component and configure it
+		populateVariableList(variables);
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		variableList.addListSelectionListener(new ListSelectionListener() {
@@ -159,32 +157,15 @@ public class SelectionPanel extends JPanel {
 		add(yearListScroller, c);
 	}
 
-	/**
-	 * This method, called by the constructor, takes the station ID field from
-	 * every StationInfo in the StationInfoList, puts it into an array, and then
-	 * populates the JList using this array
-	 * 
-	 * @param stations
-	 *            The list from which the Station IDs will come
-	 */
 	private void populateStationList(StationInfoList stations) {
-		// DONE: complete implementation
+		// TODO: implement
 		String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
 		stationList = new JList<String>(stationArray);
 	}
 
-	/**
-	 * This method, called by the constructor, takes the variable ID field from
-	 * every DataInfo in the DataInfoList, puts it into an array, and then
-	 * populates the JList using this array
-	 * 
-	 * @param variables
-	 *            The list from which the variable IDs will come
-	 */
 	private void populateVariableList(DataInfoList variables) {
-		// DONE: complete implementation
-		String[] variableArray = variables.getVariableIds()
-				.toArray(new String[variables.getVariableIds().size()]);
+		// TODO: implement
+		String[] variableArray = variables.getVariableIds().toArray(new String[variables.getVariableIds().size()]);
 		variableList = new JList<String>(variableArray);
 	}
 }

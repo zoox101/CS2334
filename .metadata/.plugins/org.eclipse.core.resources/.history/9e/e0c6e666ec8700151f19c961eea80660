@@ -64,7 +64,7 @@ public class SelectionPanel extends JPanel {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public SelectionPanel(StationInfoList stations, DataInfoList variables) throws FileNotFoundException, IOException {
+	public SelectionPanel() throws FileNotFoundException, IOException {
 		// TODO: set display properties of this panel
 		this.setBackground(new Color(0, 200, 0, 30));
 
@@ -73,11 +73,10 @@ public class SelectionPanel extends JPanel {
 		variableLabel = new JLabel("Select Variable:");
 		yearListLabel = new JLabel("Select Year(s):");
 
-		//create and populate the JList using the stations and variables lists
-		populateStationList(stations);
-		populateVariableList(variables);
-		
-		//set some of the properties of stationList
+		// construct the stationInfo list and populate the stationList component
+		StationInfoList geoInfoList = new StationInfoList("data/geoinfo.csv");
+		String[] stationArray = geoInfoList.getStationIds().toArray(new String[geoInfoList.getStationIds().size()]);
+		stationList = new JList<String>(stationArray);
 		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		stationList.addListSelectionListener(new ListSelectionListener() {
@@ -89,8 +88,12 @@ public class SelectionPanel extends JPanel {
 			}
 
 		});
-		
-		//set some of the properties of variableList
+
+		// construct the dataInfo list and populate the variable list component
+		DataInfoList dataTranslationList = new DataInfoList("data/DataTranslation.csv");
+		String[] variableArray = dataTranslationList.getVariableIds()
+				.toArray(new String[dataTranslationList.getVariableIds().size()]);
+		variableList = new JList<String>(variableArray);
 		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		variableList.addListSelectionListener(new ListSelectionListener() {
@@ -168,9 +171,7 @@ public class SelectionPanel extends JPanel {
 	 *            The list from which the Station IDs will come
 	 */
 	private void populateStationList(StationInfoList stations) {
-		// DONE: complete implementation
-		String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
-		stationList = new JList<String>(stationArray);
+		// TODO: complete implementation
 	}
 
 	/**
@@ -182,9 +183,6 @@ public class SelectionPanel extends JPanel {
 	 *            The list from which the variable IDs will come
 	 */
 	private void populateVariableList(DataInfoList variables) {
-		// DONE: complete implementation
-		String[] variableArray = variables.getVariableIds()
-				.toArray(new String[variables.getVariableIds().size()]);
-		variableList = new JList<String>(variableArray);
+		// TODO: complete implementation
 	}
 }
