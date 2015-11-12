@@ -19,7 +19,7 @@ public class Driver {
 		try {
 			WeatherFrame myFrame = new WeatherFrame();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			// DONE: Auto-generated catch block
 			JOptionPane.showMessageDialog(null, "File not found.", "Message", JOptionPane.OK_OPTION);
 			e.printStackTrace();
 			
