@@ -10,7 +10,6 @@
 <fullyQualifiedTypeName name="javax.swing.filechooser.FileNameExtensionFilter"/>
 <fullyQualifiedTypeName name="javax.swing.JList"/>
 <fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="javax.swing.JTextField"/>
@@ -28,4 +27,8 @@
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.awt.Cursor"/>
+<fullyQualifiedTypeName name="WeatherFrame"/>
+<fullyQualifiedTypeName name="FileMenuBar"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

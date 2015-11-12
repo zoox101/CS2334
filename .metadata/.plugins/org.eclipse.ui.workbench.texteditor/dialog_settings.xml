@@ -2,18 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="Cursor" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="cursor"/>
+			<item value="listselectionlistener"/>
+			<item value="updateData"/>
+			<item value="fileChoose"/>
+			<item value="yearList"/>
+			<item value="fileChooser"/>
 			<item value="don&apos;t"/>
 			<item value="yearlistmodel"/>
-			<item value="12"/>
-			<item value="15"/>
-			<item value="10"/>
-			<item value="JScrollPane"/>
 		</list>
 		<list key="replacehistory">
 			<item value="15"/>

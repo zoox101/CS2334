@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 public class Driver {
 
 	public static void main(String[] args) {
+		//TODO: think about what exceptions might occur
 		try {
 			WeatherFrame myFrame = new WeatherFrame();
 		} catch (FileNotFoundException e) {

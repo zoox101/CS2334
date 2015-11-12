@@ -197,5 +197,4 @@ public class StationInfoList {
 		// FIXED: provide implementation
 		return stationMap.get(stationId).getMinimumStat(variableId);
 	}
-	
 }
