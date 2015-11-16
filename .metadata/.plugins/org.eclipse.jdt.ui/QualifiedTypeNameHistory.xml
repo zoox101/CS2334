@@ -24,11 +24,13 @@
 <fullyQualifiedTypeName name="java.awt.Insets"/>
 <fullyQualifiedTypeName name="java.awt.Scrollbar"/>
 <fullyQualifiedTypeName name="javax.swing.event.ListSelectionListener"/>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.awt.Cursor"/>
 <fullyQualifiedTypeName name="WeatherFrame"/>
 <fullyQualifiedTypeName name="FileMenuBar"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
 </qualifiedTypeNameHistroy>

@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -21,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -134,7 +136,26 @@ public class WeatherFrame extends JFrame {
 						// TODO If the user hits open, Load the selected file
 						// using
 						WeatherFrame.this.setCursor(Cursor.WAIT_CURSOR);
-
+						try {
+							WeatherFrame.this.setCursor(Cursor.WAIT_CURSOR);
+							stationInfoList.loadData(fileChooser.getSelectedFile().toString());
+							selectionPanel.yearListModel.clear();
+							selectionPanel.yearListModel.addElement("All");
+							for (Integer year: YearlyData.getYearSet()) {
+								selectionPanel.yearListModel.addElement(year.toString());
+								System.out.println(year);
+							}
+							
+						} catch (FileNotFoundException e) {
+							// FIXED Auto-generated catch block
+							JOptionPane.showConfirmDialog(null, "FileNotFoundException. Error loading file.", "Message", JOptionPane.OK_OPTION);
+							e.printStackTrace();
+						} catch (IOException e) {
+							// FIXED Auto-generated catch block
+							e.printStackTrace();
+						} finally {
+							WeatherFrame.this.setCursor(Cursor.DEFAULT_CURSOR);
+						}
 					} else if (returnValue == 1) {
 						// don't do anything
 					}
@@ -143,371 +164,400 @@ public class WeatherFrame extends JFrame {
 			});
 
 			menuExit.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-
-			// add the menu items to the menu
-			menu.add(menuOpen);
-			menu.add(menuExit);
-
-			this.add(menu);
-		}
-	}
-
-	/**
-	 * 
-	 * @author CS2334. Modified by: Will Booker, David Jones
-	 *         <P>
-	 *         Date: 2015-11-06 <BR>
-	 *         Project 4
-	 *         <P>
-	 *         This class represents a panel containing the variables that the
-	 *         user will select, including the station, variable, and year(s).
-	 *         It should be possible for a user to select multiple years.
-	 */
-	class SelectionPanel extends JPanel {
-
-		/** List containing the list station IDs */
-		private JList<String> stationList;
-		/** List containing all of the variables */
-		private JList<String> variableList;
-		/** List containing all the years in a data file */
-		private JList<String> yearList;
-		/** Models the year list. Used in the yearList constructor */
-		private DefaultListModel<String> yearListModel;
-		/** Array list containing int values of the data file's years */
-		private ArrayList<Integer> yearListValues;
-
-		/** Scroll pane for navigating the station list */
-		private JScrollPane stationListScroller;
-		/** Scroll pane for navigating the variable list */
-		private JScrollPane variableListScroller;
-		/** Scroll pane for navigating the year list */
-		private JScrollPane yearListScroller;
-
-		/** Label next to the station list */
-		private JLabel stationLabel;
-		/** Label next to the variable list */
-		private JLabel variableLabel;
-		/** Label next to the year list */
-		private JLabel yearListLabel;
-
-		/**
-		 * Constructor
-		 * 
-		 * @throws IOException
-		 * @throws FileNotFoundException
-		 */
-		public SelectionPanel(StationInfoList stations, DataInfoList variables)
-				throws FileNotFoundException, IOException {
-
-			super();
-
-			this.setBackground(new Color(0, 200, 0, 30));
-
-			// initialize the labels
-			stationLabel = new JLabel("Select Station:");
-			variableLabel = new JLabel("Select Variable:");
-			yearListLabel = new JLabel("Select Year(s):");
-
-			// create and populate the JList using the stations and variables
-			// lists
-			populateStationList(stations);
-			populateVariableList(variables);
-
-			// set some of the properties of stationList
-			stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-			stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			stationList.setSelectedIndex(0);
-			stationList.addListSelectionListener(new MyListListener());
-
-			// set some of the properties of variableList
-			variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-			variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			variableList.setSelectedIndex(0);
-			variableList.addListSelectionListener(new MyListListener());
-
-			//create the list model
-			yearListModel = new DefaultListModel<String>();
-			yearListModel.addElement("All");
-
-			//create the year JList
-			yearList = new JList<String>(yearListModel);
-			yearList.addListSelectionListener(new MyListListener());
-
-			// configure the scroll panes
-			Dimension scrollPaneDim = new Dimension(250, 150);
-			stationListScroller = new JScrollPane(stationList);
-			stationListScroller.setMinimumSize(scrollPaneDim);
-			variableListScroller = new JScrollPane(variableList);
-			variableListScroller.setMinimumSize(scrollPaneDim);
-			yearListScroller = new JScrollPane(yearList);
-			yearListScroller.setMinimumSize(scrollPaneDim);
-
-			// configure the layout of components
-			GridBagLayout layout = new GridBagLayout();
-			GridBagConstraints c = new GridBagConstraints();
-			c.insets = new Insets(10, 10, 10, 10);
-			this.setLayout(layout);
-
-			c.gridx = 0;
-			c.gridy = 0;
-			add(stationLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 0;
-			add(stationListScroller, c);
-
-			c.gridx = 0;
-			c.gridy = 1;
-			add(variableLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 1;
-			add(variableListScroller, c);
-
-			c.gridx = 0;
-			c.gridy = 2;
-			add(yearListLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 2;
-			add(yearListScroller, c);
-		}
-
-		/**
-		 * This method, called by the constructor, takes the station ID field
-		 * from every StationInfo in the StationInfoList, puts it into an array,
-		 * and then populates the JList using this array
-		 * 
-		 * @param stations
-		 *            The list from which the Station IDs will come
-		 */
-		private void populateStationList(StationInfoList stations) {
-			// DONE: complete implementation
-			String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
-			stationList = new JList<String>(stationArray);
-		}
-
-		/**
-		 * This method, called by the constructor, takes the variable ID field
-		 * from every DataInfo in the DataInfoList, puts it into an array, and
-		 * then populates the JList using this array
-		 * 
-		 * @param variables
-		 *            The list from which the variable IDs will come
-		 */
-		private void populateVariableList(DataInfoList variables) {
-			// DONE: complete implementation
-			String[] variableArray = variables.getVariableIds().toArray(new String[variables.getVariableIds().size()]);
-			variableList = new JList<String>(variableArray);
-		}
-	}
-
-	/**
-	 * 
-	 * @author CS2334. Modified by: Will Booker, David Jones
-	 *         <P>
-	 *         Date: 2015-11-06 <BR>
-	 *         Project 4
-	 *         <P>
-	 *         This class represents the main componenet for displaying output
-	 *         to the user. It should display relevant statistics based on what
-	 *         parameters the user selects from the SelectionPanel object.
-	 */
-	private class DataPanel extends JPanel {
-
-		/** Label next to the station ID */
-		private JLabel stationLabel;
-		/** Label next to the variable */
-		private JLabel variableLabel;
-		/** Label next to the minimum measurement value */
-		private JLabel minLabel;
-		/** Label next to the maximum measurement value */
-		private JLabel maxLabel;
-		/** Label next to the average measurement value */
-		private JLabel averageLabel;
-
-		/** Text field containing the station Id */
-		private JTextField stationIdField;
-		/** Text field containing the name of the station */
-		private JTextField stationNameField;
-		/** Text field containing the city the station is in */
-		private JTextField stationCityField;
-		/** Text field containing the variable Id */
-		private JTextField variableIdField;
-		/** Text field containing the minimum value as a double */
-		private JTextField minVal;
-		/** Text field containing the maximum value as a double */
-		private JTextField maxVal;
-		/** Text field containing the average value as a double */
-		private JTextField averageVal;
-		/** Text field containing the units the variable is measured in */
-		private JTextField variableUnitsField;
-		/**
-		 * Text field containing the date on which the minimum value occurred
-		 */
-		private JTextField minDateField;
-		/**
-		 * Text field containing the date on which the maximum value occurred
-		 */
-		private JTextField maxDateField;
-		/**
-		 * Text area that displays in more detail what the variable represents
-		 */
-		private JTextArea variableDescription;
-
-		/**
-		 * Constructor
-		 */
-		public DataPanel() {
-
-			super();
-
-			this.setBackground(new Color(0, 0, 200, 30));
-
-			// initialize all of the components and set their properties
-			stationLabel = new JLabel("Station:");
-			variableLabel = new JLabel("Variable:");
-			maxLabel = new JLabel("Maximum:");
-			minLabel = new JLabel("Minimum:");
-			averageLabel = new JLabel("Average:");
-
-			averageVal = new JTextField();
-			averageVal.setEditable(false);
-			averageVal.setColumns(15);
-			maxDateField = new JTextField();
-			maxDateField.setEditable(false);
-			maxDateField.setColumns(15);
-			maxVal = new JTextField();
-			maxVal.setEditable(false);
-			maxVal.setColumns(15);
-			minDateField = new JTextField();
-			minDateField.setEditable(false);
-			minDateField.setColumns(15);
-			minVal = new JTextField();
-			minVal.setEditable(false);
-			minVal.setColumns(15);
-			stationCityField = new JTextField();
-			stationCityField.setEditable(false);
-			stationCityField.setColumns(15);
-			stationIdField = new JTextField();
-			stationIdField.setEditable(false);
-			stationIdField.setColumns(15);
-			stationNameField = new JTextField();
-			stationNameField.setEditable(false);
-			stationNameField.setColumns(15);
-			variableDescription = new JTextArea();
-			variableDescription.setEditable(false);
-			variableDescription.setColumns(15);
-			variableDescription.setRows(4);
-			variableDescription.setLineWrap(true);
-			variableDescription.setWrapStyleWord(true);
-			variableIdField = new JTextField();
-			variableIdField.setEditable(false);
-			variableIdField.setColumns(15);
-			variableUnitsField = new JTextField();
-			variableUnitsField.setEditable(false);
-			variableUnitsField.setColumns(15);
-
-			GridBagLayout layout = new GridBagLayout();
-			GridBagConstraints c = new GridBagConstraints();
-			layout.setConstraints(this, c);
-			this.setLayout(layout);
-
-			c.insets = new Insets(10, 10, 10, 10);
-
-			c.gridx = 0;
-			c.gridy = 0;
-			add(stationLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 0;
-			add(stationIdField, c);
-
-			c.gridx = 2;
-			c.gridy = 0;
-			add(stationNameField, c);
-
-			c.gridx = 2;
-			c.gridy = 1;
-			add(stationCityField, c);
-
-			c.gridx = 0;
-			c.gridy = 2;
-			add(variableLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 2;
-			add(variableIdField, c);
-
-			c.gridx = 2;
-			c.gridy = 2;
-			add(variableUnitsField, c);
-
-			c.gridx = 2;
-			c.gridy = 3;
-			add(variableDescription, c);
-
-			c.gridx = 0;
-			c.gridy = 4;
-			add(maxLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 4;
-			add(maxVal, c);
-
-			c.gridx = 2;
-			c.gridy = 4;
-			add(maxDateField, c);
-
-			c.gridx = 0;
-			c.gridy = 5;
-			add(averageLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 5;
-			add(averageVal, c);
-
-			c.gridx = 0;
-			c.gridy = 6;
-			add(minLabel, c);
-
-			c.gridx = 1;
-			c.gridy = 6;
-			add(minVal, c);
-
-			c.gridx = 2;
-			c.gridy = 6;
-			add(minDateField, c);
-		}
-
-		/**
-		 * This method is called by the action listeners of all three JList.
-		 * This will take the currently selected values of the JList and display
-		 * the statistics of that data set in the text fields
-		 */
-		public void updateData() {
-			// TODO: complete implementation
-		}
-	}
-
-	/**
-	 * 
-	 * @author David Since selecting from any of the three lists in
-	 *         SelectionPanel should accomplish the same goal (updating the
-	 *         DataPanel), they all implement this one action listener
-	 */
-	class MyListListener implements ListSelectionListener {
 
 		@Override
-		public void valueChanged(ListSelectionEvent arg0) {
-			// TODO: Update the DataPanel's text fields depending on the
-			// currently selected values from the JList
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 		}
+	});
 
+	// add the menu items to the menu
+	menu.add(menuOpen);menu.add(menuExit);
+
+	this.add(menu);
+}}
+
+/**
+ * 
+ * @author CS2334. Modified by: Will Booker, David Jones
+ *         <P>
+ *         Date: 2015-11-06 <BR>
+ *         Project 4
+ *         <P>
+ *         This class represents a panel containing the variables that the user
+ *         will select, including the station, variable, and year(s). It should
+ *         be possible for a user to select multiple years.
+ */
+class SelectionPanel extends JPanel {
+
+	/** List containing the list station IDs */
+	private JList<String> stationList;
+	/** List containing all of the variables */
+	private JList<String> variableList;
+	/** List containing all the years in a data file */
+	private JList<String> yearList;
+	/** Models the year list. Used in the yearList constructor */
+	private DefaultListModel<String> yearListModel;
+	/** Array list containing int values of the data file's years */
+	private ArrayList<Integer> yearListValues;
+
+	/** Scroll pane for navigating the station list */
+	private JScrollPane stationListScroller;
+	/** Scroll pane for navigating the variable list */
+	private JScrollPane variableListScroller;
+	/** Scroll pane for navigating the year list */
+	private JScrollPane yearListScroller;
+
+	/** Label next to the station list */
+	private JLabel stationLabel;
+	/** Label next to the variable list */
+	private JLabel variableLabel;
+	/** Label next to the year list */
+	private JLabel yearListLabel;
+
+	/**
+	 * Constructor
+	 * 
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	public SelectionPanel(StationInfoList stations, DataInfoList variables) throws FileNotFoundException, IOException {
+
+		super();
+
+		this.setBackground(new Color(0, 200, 0, 30));
+
+		// initialize the labels
+		stationLabel = new JLabel("Select Station:");
+		variableLabel = new JLabel("Select Variable:");
+		yearListLabel = new JLabel("Select Year(s):");
+
+		// create and populate the JList using the stations and variables
+		// lists
+		populateStationList(stations);
+		populateVariableList(variables);
+
+		// set some of the properties of stationList
+		stationList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		stationList.setSelectedIndex(0);
+		stationList.addListSelectionListener(new MyListListener());
+
+		// set some of the properties of variableList
+		variableList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		variableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		variableList.setSelectedIndex(0);
+		variableList.addListSelectionListener(new MyListListener());
+
+		// create the list model
+		yearListModel = new DefaultListModel<String>();
+		yearListModel.addElement("All");
+
+		// create the year JList
+		yearList = new JList<String>(yearListModel);
+		yearList.addListSelectionListener(new MyListListener());
+
+		// configure the scroll panes
+		Dimension scrollPaneDim = new Dimension(250, 150);
+		stationListScroller = new JScrollPane(stationList);
+		stationListScroller.setMinimumSize(scrollPaneDim);
+		variableListScroller = new JScrollPane(variableList);
+		variableListScroller.setMinimumSize(scrollPaneDim);
+		yearListScroller = new JScrollPane(yearList);
+		yearListScroller.setMinimumSize(scrollPaneDim);
+
+		// configure the layout of components
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10, 10, 10, 10);
+		this.setLayout(layout);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		add(stationLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		add(stationListScroller, c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		add(variableLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		add(variableListScroller, c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		add(yearListLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		add(yearListScroller, c);
+	}
+
+	/**
+	 * This method, called by the constructor, takes the station ID field from
+	 * every StationInfo in the StationInfoList, puts it into an array, and then
+	 * populates the JList using this array
+	 * 
+	 * @param stations
+	 *            The list from which the Station IDs will come
+	 */
+	private void populateStationList(StationInfoList stations) {
+		// DONE: complete implementation
+		String[] stationArray = stations.getStationIds().toArray(new String[stations.getStationIds().size()]);
+		stationList = new JList<String>(stationArray);
+	}
+
+	/**
+	 * This method, called by the constructor, takes the variable ID field from
+	 * every DataInfo in the DataInfoList, puts it into an array, and then
+	 * populates the JList using this array
+	 * 
+	 * @param variables
+	 *            The list from which the variable IDs will come
+	 */
+	private void populateVariableList(DataInfoList variables) {
+		// DONE: complete implementation
+		String[] variableArray = variables.getVariableIds().toArray(new String[variables.getVariableIds().size()]);
+		variableList = new JList<String>(variableArray);
 	}
 }
+
+/**
+ * 
+ * @author CS2334. Modified by: Will Booker, David Jones
+ *         <P>
+ *         Date: 2015-11-06 <BR>
+ *         Project 4
+ *         <P>
+ *         This class represents the main componenet for displaying output to
+ *         the user. It should display relevant statistics based on what
+ *         parameters the user selects from the SelectionPanel object.
+ */
+private class DataPanel extends JPanel {
+
+	/** Label next to the station ID */
+	private JLabel stationLabel;
+	/** Label next to the variable */
+	private JLabel variableLabel;
+	/** Label next to the minimum measurement value */
+	private JLabel minLabel;
+	/** Label next to the maximum measurement value */
+	private JLabel maxLabel;
+	/** Label next to the average measurement value */
+	private JLabel averageLabel;
+
+	/** Text field containing the station Id */
+	private JTextField stationIdField;
+	/** Text field containing the name of the station */
+	private JTextField stationNameField;
+	/** Text field containing the city the station is in */
+	private JTextField stationCityField;
+	/** Text field containing the variable Id */
+	private JTextField variableIdField;
+	/** Text field containing the minimum value as a double */
+	private JTextField minVal;
+	/** Text field containing the maximum value as a double */
+	private JTextField maxVal;
+	/** Text field containing the average value as a double */
+	private JTextField averageVal;
+	/** Text field containing the units the variable is measured in */
+	private JTextField variableUnitsField;
+	/**
+	 * Text field containing the date on which the minimum value occurred
+	 */
+	private JTextField minDateField;
+	/**
+	 * Text field containing the date on which the maximum value occurred
+	 */
+	private JTextField maxDateField;
+	/**
+	 * Text area that displays in more detail what the variable represents
+	 */
+	private JTextArea variableDescription;
+
+	/**
+	 * Constructor
+	 */
+	public DataPanel() {
+
+		super();
+
+		this.setBackground(new Color(0, 0, 200, 30));
+
+		// initialize all of the components and set their properties
+		stationLabel = new JLabel("Station:");
+		variableLabel = new JLabel("Variable:");
+		maxLabel = new JLabel("Maximum:");
+		minLabel = new JLabel("Minimum:");
+		averageLabel = new JLabel("Average:");
+
+		averageVal = new JTextField();
+		averageVal.setEditable(false);
+		averageVal.setColumns(15);
+		maxDateField = new JTextField();
+		maxDateField.setEditable(false);
+		maxDateField.setColumns(15);
+		maxVal = new JTextField();
+		maxVal.setEditable(false);
+		maxVal.setColumns(15);
+		minDateField = new JTextField();
+		minDateField.setEditable(false);
+		minDateField.setColumns(15);
+		minVal = new JTextField();
+		minVal.setEditable(false);
+		minVal.setColumns(15);
+		stationCityField = new JTextField();
+		stationCityField.setEditable(false);
+		stationCityField.setColumns(15);
+		stationIdField = new JTextField();
+		stationIdField.setEditable(false);
+		stationIdField.setColumns(15);
+		stationNameField = new JTextField();
+		stationNameField.setEditable(false);
+		stationNameField.setColumns(15);
+		variableDescription = new JTextArea();
+		variableDescription.setEditable(false);
+		variableDescription.setColumns(15);
+		variableDescription.setRows(4);
+		variableDescription.setLineWrap(true);
+		variableDescription.setWrapStyleWord(true);
+		variableIdField = new JTextField();
+		variableIdField.setEditable(false);
+		variableIdField.setColumns(15);
+		variableUnitsField = new JTextField();
+		variableUnitsField.setEditable(false);
+		variableUnitsField.setColumns(15);
+
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		layout.setConstraints(this, c);
+		this.setLayout(layout);
+
+		c.insets = new Insets(10, 10, 10, 10);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		add(stationLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 0;
+		add(stationIdField, c);
+
+		c.gridx = 2;
+		c.gridy = 0;
+		add(stationNameField, c);
+
+		c.gridx = 2;
+		c.gridy = 1;
+		add(stationCityField, c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		add(variableLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		add(variableIdField, c);
+
+		c.gridx = 2;
+		c.gridy = 2;
+		add(variableUnitsField, c);
+
+		c.gridx = 2;
+		c.gridy = 3;
+		add(variableDescription, c);
+
+		c.gridx = 0;
+		c.gridy = 4;
+		add(maxLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 4;
+		add(maxVal, c);
+
+		c.gridx = 2;
+		c.gridy = 4;
+		add(maxDateField, c);
+
+		c.gridx = 0;
+		c.gridy = 5;
+		add(averageLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 5;
+		add(averageVal, c);
+
+		c.gridx = 0;
+		c.gridy = 6;
+		add(minLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 6;
+		add(minVal, c);
+
+		c.gridx = 2;
+		c.gridy = 6;
+		add(minDateField, c);
+	}
+
+	/**
+     * This method is called by the action listeners of all three JList.
+     * This will take the currently selected values of the JList and display
+     * the statistics of that data set in the text fields
+     */
+    public void updateData() 
+    {
+        // FIXED: complete implementation
+        //Creating references
+        SelectionPanel selectionPanel = WeatherFrame.this.selectionPanel;
+        DataPanel dataPanel = WeatherFrame.this.dataPanel;
+        
+        //Getting values
+        String stationId = selectionPanel.stationList.getSelectedValue();
+        String variableId = selectionPanel.variableList.getSelectedValue();
+        java.util.List<String> yearsString = selectionPanel.yearList.getSelectedValuesList();
+        ArrayList<Integer> years = new ArrayList<Integer>();
+        for(String year: yearsString) years.add(Integer.parseInt(year));
+        
+        //Getting the relevant station
+        StationInfo station = WeatherFrame.this.stationInfoList.getStationInfo(stationId);
+        DataInfo dataInfo = WeatherFrame.this.dataInfoList.getDataInfo(variableId);
+        
+        //Setting fields
+        dataPanel.stationIdField.setText(stationId);
+        dataPanel.stationNameField.setText(station.getName());
+        dataPanel.stationCityField.setText(station.getCity());
+        dataPanel.variableIdField.setText(variableId);
+        dataPanel.variableUnitsField.setText(dataInfo.getUnit());
+        dataPanel.variableDescription.setText(dataInfo.getDescription());
+        
+        DataSet dataSet = new DataSet(station.getDataSet(), years);
+        
+        dataPanel.maxVal.setText(Double.toString(dataSet.getMaximumStat(variableId).getObservationMap().get(variableId).getValue()));
+        //dataPanel.maxDateField.setText(dataSet.getMaximumStat(variableId).getDate());
+        dataPanel.averageVal.setText(dataSet.getAverageStat(variableId).toString());
+        //dataPanel.minVal.setText(dataSet.getMinimumStat(variableId).getAverageStat(variableId).toString());
+        dataPanel.minDateField.setText(dataSet.getMinimumStat(variableId).getDate());
+    }
+}
+
+/**
+ * 
+ * @author David Since selecting from any of the three lists in SelectionPanel
+ *         should accomplish the same goal (updating the DataPanel), they all
+ *         implement this one action listener
+ */
+class MyListListener implements ListSelectionListener {
+
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		// FIXED: Update the DataPanel's text fields depending on the
+		// currently selected values from the JList
+		dataPanel.updateData();
+	}
+
+}}

@@ -14,7 +14,7 @@ import java.util.TreeMap;
  */
 public class YearlyData extends MultiStatisticsAbstract {
 	/** Year set to keep track of what years have been loaded in */
-	private static ArrayList<Integer> yearSet;
+	private static ArrayList<Integer> yearSet = new ArrayList<Integer>();
 	/** Static variable for the number of months in a year */
 	public static final int MONTHS_PER_YEAR = 12;
 	/** Tree map for storing the 12 months in a year */
@@ -24,8 +24,6 @@ public class YearlyData extends MultiStatisticsAbstract {
 	 * Constructor
 	 */
 	public YearlyData() {
-		// initialize yearSet
-		yearSet = new ArrayList<Integer>();
 
 		// populate the MonthlyData tree map
 		months = new TreeMap<Integer, MonthlyData>();
@@ -59,7 +57,8 @@ public class YearlyData extends MultiStatisticsAbstract {
 		
 		//add the year field from the day to the set if it is not already there
 		if (!yearSet.contains(day.getYear())) {
-			yearSet.add(day.getYear());
+			Integer year = day.getYear();
+			yearSet.add(new Integer(year));
 		}
 	}
 
