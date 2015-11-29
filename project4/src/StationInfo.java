@@ -202,4 +202,10 @@ public class StationInfo {
 		return String.format("%-12s %-25s %s", stationId, name, city);
 	}
 	
+	/**
+	 * Resets the dataset (for when a new file is loaded)
+	 */
+	public void resetDataSet() {
+		dataSet = new DataSet();
+	}
 }

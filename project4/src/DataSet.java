@@ -69,5 +69,4 @@ public class DataSet extends MultiStatisticsAbstract {
 			years.get(year).add(day);
 		}
 	}
-
 }

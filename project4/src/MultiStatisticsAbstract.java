@@ -42,92 +42,113 @@ public abstract class MultiStatisticsAbstract extends StatisticsAbstract {
 	protected abstract void add(DailyData day);
 
 	/**
-	 * Return the average of the measurement defined by the variableId
-	 * parameter. If there are no valid samples, then returns an invalid
-	 * Observation
+	 * Return the average of the measurement defined by the variableId parameter.  If there
+	 * are no valid samples, then returns an invalid Observation 
 	 * 
-	 * @param variableId
-	 *            String describing the measurement to compute the average over
+	 * @param variableId String describing the measurement to compute the average over 
 	 * @return The average of the valid measurements.
 	 */
-	public Observation getAverageStat(String variableId) {
+	public Observation getAverageStat(String variableId){
 		double sum = 0.0;
 		int count = 0;
-
-		// FIXED: complete implementation
-		TreeMap<Integer, ? extends StatisticsAbstract> tree = getContents();
-		for (Integer key : tree.keySet())
-			if (tree.get(key).getAverageStat(variableId).getValid()) {
+		
+		// Get the set of sub-objects
+		TreeMap<Integer, ? extends StatisticsAbstract> contents = getContents();
+		
+		// Iterate over these objects
+		for(StatisticsAbstract sa: contents.values()) {
+			Observation o = sa.getAverageStat(variableId);
+			if(o.getValid()){
+				// Observation is valid: include in the average
+				sum += o.getValue();
 				count++;
-				sum += tree.get(key).getAverageStat(variableId).getValue();
 			}
-		return new Observation(sum / count);
+		}
+		
+		if(count == 0)
+			// No valid samples: return an invalid Observation
+			return new Observation();
+		else
+			// Construct a new valid observation
+			return new Observation(sum/count);
 	}
 
 	/**
-	 * Return the maximum of the measurement defined by the variableId
-	 * parameter. If there is more than one sample that is the maximum, then
-	 * return the one with the earliest date. If there are no valid samples,
-	 * then null CAN BE returned.
+	 * Return the maximum of the measurement defined by the variableId parameter.  If
+	 * there is more than one sample that is the maximum, then return the one with the 
+	 * earliest date. If there are no samples, then null CAN BE returned.
 	 * 
-	 * @param variableId
-	 *            String describing the measurement to compute the maximum over
-	 * @return The DailyData object that contains the maximum value of the
-	 *         measurement.
+	 * @param variableId String describing the measurement to compute the maximum over 
+	 * @return The DailyData object that contains the maximum value of the measurement.  
 	 * 
 	 */
-	public DailyData getMaximumStat(String variableId) {
-		// FIXED: complete implementation
-		TreeMap<Integer, ? extends StatisticsAbstract> tree = getContents();
-		Observation max = new Observation();
-		DailyData maxDay = null;
-
-		// System.out.println(tree.keySet());
-		for (Integer key : tree.keySet()) {
-			DailyData possibleMax = tree.get(key).getMaximumStat(variableId);
-			// System.out.println(possibleMin + " -- " + key);
-
-			if (possibleMax != null && possibleMax.getObservationMap().get(variableId).isGreaterThan(max)) {
-				maxDay = possibleMax;
-				max = maxDay.getObservationMap().get(variableId);
+	public DailyData getMaximumStat(String variableId){
+		// Get the set of sub-objects
+		TreeMap<Integer, ? extends StatisticsAbstract> contents = getContents();
+			
+		// Default values for search
+		DailyData dayOut = null; 
+		Observation oOut = new Observation(); 
+		
+		// Force copy to happen on the first pass through
+		boolean flag = true;
+		// Loop over contents in order
+		for(int i: contents.keySet()){
+			// Get the sub-object max
+			DailyData d = contents.get(i).getMaximumStat(variableId);
+			
+			// Get the value of the sub-object
+			Observation o = d.getAverageStat(variableId);
+			
+			// Compare this new observation to the running best
+			if(flag || o.isGreaterThan(oOut)){
+				// This one is better
+				oOut = o;
+				dayOut = d;
+				flag = false;
 			}
 		}
-		// System.out.println(minDay);
-
-		return maxDay;
+		return dayOut;
 	}
 
 	/**
-	 * Return the minimum of the measurement defined by the variableId
-	 * parameter. If there is more than one sample that is the minimum, then
-	 * return the one with the earliest date. If there are no valid samples,
-	 * then null CAN BE returned.
+	 * Return the minimum of the measurement defined by the variableId parameter.  If
+	 * there is more than one sample that is the minimum, then return the one with the 
+	 * earliest date. If there are no samples, then null CAN BE returned.
 	 * 
-	 * @param variableId
-	 *            String describing the measurement to compute the minimum over
-	 * @return The DailyData object that contains the minimum value of the
-	 *         measurement.
+	 * @param variableId String describing the measurement to compute the minimum over 
+	 * @return The DailyData object that contains the minimum value of the measurement.  
 	 * 
 	 */
-	public DailyData getMinimumStat(String variableId) {
-		// FIXED: complete implementation
-		TreeMap<Integer, ? extends StatisticsAbstract> tree = getContents();
-		Observation min = new Observation();
-		DailyData minDay = null;
+	public DailyData getMinimumStat(String variableId){
+		
+		// Get the set of sub-objects
+		TreeMap<Integer, ? extends StatisticsAbstract> contents = getContents();
 
-		// System.out.println(tree.keySet());
-		for (Integer key : tree.keySet()) {
-			DailyData possibleMin = tree.get(key).getMinimumStat(variableId);
-			// System.out.println(possibleMin + " -- " + key);
-
-			if (possibleMin != null && possibleMin.getObservationMap().get(variableId).isLessThan(min)) {
-				minDay = possibleMin;
-				min = minDay.getObservationMap().get(variableId);
+		// Default values in search
+		DailyData dayOut = null; 
+		Observation oOut = new Observation(); 
+		
+		// Force copy to happen on the first pass
+		boolean flag = true;
+		
+		// Loop over the remaining contents in order
+		for(int i: contents.keySet()){ 
+			// Get the sub-object min
+			DailyData d = contents.get(i).getMinimumStat(variableId);
+			
+			// Get the value of the sub-object
+			Observation o = d.getAverageStat(variableId);
+			
+			// Compare this new observation to the running best
+			if(flag || o.isLessThan(oOut)){
+				// This one is better
+				oOut = o;
+				dayOut = d;
+				flag = false;
 			}
 		}
-		// System.out.println(minDay);
-
-		return minDay;
+		return dayOut;
 	}
 
 }

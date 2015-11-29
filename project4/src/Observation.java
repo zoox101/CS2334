@@ -34,7 +34,7 @@ public class Observation {
 	 * Observation constructor: construct an invalid object.
 	 */
 	public Observation() {
-		// TODO: complete implementation
+		// FIXED: complete implementation
 		this(-990.0);
 	}
 
@@ -47,7 +47,7 @@ public class Observation {
 	 *         o
 	 */
 	public boolean isLessThan(Observation o) {
-		// TODO: complete implementation
+		// FIXED: complete implementation
 		// if both values are valid, compare the two values
 		if (this.valid && o.valid)
 			return this.value < o.value;
@@ -67,7 +67,7 @@ public class Observation {
 	 *         larger than o.
 	 */
 	public boolean isGreaterThan(Observation o) {
-		// TODO: complete implementation
+		// FIXED: complete implementation
 		// if both values are valid, compare the two values
 		if (this.valid && o.valid)
 			return this.value > o.value;
