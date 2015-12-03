@@ -11,153 +11,200 @@ import java.util.ArrayList;
  * <P>
  * Project 5 <BR>
  * Date: 2015-11-18
- * @author CS 2334.  Modified by ????
+ * 
+ * @author CS 2334. Modified by ????
  *
  */
 
 public class CountyInfoList {
-	/** List of all counties.  */
+	/** List of all counties. */
 	private ArrayList<CountyInfo> countyList;
-	/** X: the total translation in screen coordinates of the component polygons.  
-	 * Used to translate between long/lat and screen.  */
+	/**
+	 * X: the total translation in screen coordinates of the component polygons.
+	 * Used to translate between long/lat and screen.
+	 */
 	private int deltaX;
-	/** Y: the total translation in screen coordinates of the component polygons.  
-	 * Used to translate between long/lat and screen.  */
+	/**
+	 * Y: the total translation in screen coordinates of the component polygons.
+	 * Used to translate between long/lat and screen.
+	 */
 	private int deltaY;
-	/** Scale factor along X direction.  Translation between long/lat and screen. */
+	/**
+	 * Scale factor along X direction. Translation between long/lat and screen.
+	 */
 	private double scaleX;
-	/** Scale factor along Y direction.  Translation between long/lat and screen. */
+	/**
+	 * Scale factor along Y direction. Translation between long/lat and screen.
+	 */
 	private double scaleY;
-	
+
 	/**
 	 * Default constructor
 	 * 
-	 * @param fileName File containing the county information
-	 * @throws IOException If an error occurs during loading of the file.
+	 * @param fileName
+	 *            File containing the county information
+	 * @throws IOException
+	 *             If an error occurs during loading of the file.
 	 */
-	public CountyInfoList(String fileName) throws IOException{
+	public CountyInfoList(String fileName) throws IOException {
 		this(fileName, 90.0, -90.0, 10, 10);
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param fileName File containing the county information
-	 * @param scaleX Scale along X direction (long/lat to screen)
-	 * @param scaleY Scale along Y direction (long/lat to screen)
-	 * @param offsetX Offset along X direction (long/lat to screen)
-	 * @param offsetY Offset along Y direction (long/lat to screen)
-	 * @throws IOException If there is an error loading the data
+	 * @param fileName
+	 *            File containing the county information
+	 * @param scaleX
+	 *            Scale along X direction (long/lat to screen)
+	 * @param scaleY
+	 *            Scale along Y direction (long/lat to screen)
+	 * @param offsetX
+	 *            Offset along X direction (long/lat to screen)
+	 * @param offsetY
+	 *            Offset along Y direction (long/lat to screen)
+	 * @throws IOException
+	 *             If there is an error loading the data
 	 */
-	public CountyInfoList(String fileName, double scaleX, double scaleY,
-			int offsetX, int offsetY) 
-			throws IOException{
-		
+	public CountyInfoList(String fileName, double scaleX, double scaleY, int offsetX, int offsetY) throws IOException {
+
 		// Store scale information
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
-		
+
 		// Initial deltas are zero
 		deltaX = deltaY = 0;
-		
+
 		// Create space for the county list
 		countyList = new ArrayList<CountyInfo>();
 
 		// Open the file
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
-		
-		// TODO: load in each of the counties from the file and populate countyList
-		
+
+		// TODO: load in each of the counties from the file and populate
+		// countyList
+
+		// read a line in the csv file
+		String inLine = br.readLine();
+		// array containing each element (seperated by commas) in the csv file
+		String[] inElements;
+
+		// While there are lines to be read, create a String array from that
+		// line and pass that array to a new CountyInfo object, which is then
+		// added to countyList
+		while (inLine != null) {
+			inElements = inLine.split(",");
+			countyList.add(new CountyInfo(inElements, scaleX, scaleY));
+			inLine = br.readLine();
+		}
+
 		// Close the file
 		br.close();
-		
+
 		// Correct bounding so top left is 0,0
 		Rectangle rec = getBounds();
-		
+
 		// Move all component polygons into the panel view
 		translate(-rec.x + offsetX, -rec.y + offsetY);
-				
+
 	}
-	
+
 	/**
-	 * Compute the bounding box that contains all of the polygons
-	 * for the component counties 
+	 * Compute the bounding box that contains all of the polygons for the
+	 * component counties
 	 * 
 	 * @return The Rectangle that describes the bounding box for all counties
 	 */
-	public Rectangle getBounds(){
-		// TODO: complete.  Hint: look carefully at the Rectangle class
+	public Rectangle getBounds() {
+		// TODO: complete. Hint: look carefully at the Rectangle class
 		Rectangle rec = null;
-		
+
 		return rec;
 	}
 
 	/**
 	 * Translate all of the component counties by some delta position
 	 * 
-	 * @param deltaX Change along X dimension
-	 * @param deltaY Change along Y dimension
+	 * @param deltaX
+	 *            Change along X dimension
+	 * @param deltaY
+	 *            Change along Y dimension
 	 */
-	private void translate(int deltaX, int deltaY){
+	private void translate(int deltaX, int deltaY) {
 		// Remember all of the changes we have made along the way
 		this.deltaX += deltaX;
 		this.deltaY += deltaY;
-		
+
 		// Loop through all counties and add the new delta
-		// TODO: complete 
-		
-	}
-	
-	/**
-	 * Draw all of the counties given the graphics context
-	 * 
-	 * @param g2 Graphics context in which to draw
-	 */
-	protected void draw(Graphics2D g2){
 		// TODO: complete
 
 	}
-	
+
+	/**
+	 * Draw all of the counties given the graphics context
+	 * 
+	 * @param g2
+	 *            Graphics context in which to draw
+	 */
+	protected void draw(Graphics2D g2) {
+		// TODO: complete
+
+	}
+
 	/**
 	 * Given a coordinate on the screen, return the corresponding county
 	 * 
-	 * @param x Query coordinate: X dimension
-	 * @param y Query coordinate: Y dimension
-	 * @return CountyInfo object that contains the query point.  null if there is no county
-	 * that contains the query
+	 * @param x
+	 *            Query coordinate: X dimension
+	 * @param y
+	 *            Query coordinate: Y dimension
+	 * @return CountyInfo object that contains the query point. null if there is
+	 *         no county that contains the query
 	 */
-	public CountyInfo findCounty(int x, int y){
+	public CountyInfo findCounty(int x, int y) {
 		// TODO: complete
-		
+
+		// iterate over all counties and see if the point is within each polygon
+		// returns the CountyInfo if the point is contained within it, otherwise
+		// returns null
+		for (CountyInfo county : countyList) {
+			if (county.contains(x, y)) {
+				return county;
+			}
+		}
 		// None found
 		return null;
 	}
-	
+
 	/**
 	 * Given a long/lat, return the corresponding county
-	 * @param lon Query longitude
-	 * @param lat Query lattitude
-	 * @return CountyInfo object that contains the query point.  null if there is no county
-	 * that contains the query
+	 * 
+	 * @param lon
+	 *            Query longitude
+	 * @param lat
+	 *            Query lattitude
+	 * @return CountyInfo object that contains the query point. null if there is
+	 *         no county that contains the query
 	 */
-	public CountyInfo findCounty(double lon, double lat){
+	public CountyInfo findCounty(double lon, double lat) {
 		// Find the screen coordinates of the query
 		int x = (int) (lon * scaleX + deltaX);
 		int y = (int) (lat * scaleY + deltaY);
 		// Now check using screen coordinates
 		return findCounty(x, y);
 	}
-	
+
 	/**
 	 * Set the color of all the counties
 	 * 
-	 * @param c Color to which to set all the counties
+	 * @param c
+	 *            Color to which to set all the counties
 	 */
-	public void setColor(Color c){
+	public void setColor(Color c) {
 		// Loop over all counties.
-		for(int i = 0; i < countyList.size(); ++i){
+		for (int i = 0; i < countyList.size(); ++i) {
 			countyList.get(i).setColor(c);
 		}
 	}
-	
+
 }

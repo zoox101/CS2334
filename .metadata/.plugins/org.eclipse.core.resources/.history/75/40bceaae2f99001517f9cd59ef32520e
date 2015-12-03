@@ -1,0 +1,57 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+/**
+ * This class is the top-level class of our County Explorer program.  It contains all of the high-level data
+ * (most of which is loaded immediately) & it creates the main State Frame window.
+ * 
+ * <P>
+ * Project 5<BR>
+ * Date: 2015-11-18
+ * <P>
+ * DO NOT MODIFY THIS CLASS
+ * <P>
+ * 
+ * @author CS 2334. 
+ *
+ */
+
+public class CountyExplorer {
+	/** The stationInfoList (filled in later) */
+	private StationInfoList stationInfoList;
+	/** Data info list */
+	private DataInfoList dataInfoList;
+	/** County info list: information about individual counties */
+	private CountyInfoList countyInfoList;
+	/** County connector: connects stations with counties.  */
+	private CountyConnector countyConnector;
+	/** Main window.  */
+	private StateFrame stateFrame;
+	
+	public CountyExplorer() throws FileNotFoundException, IOException{
+		// Load the station and data info
+		stationInfoList = new StationInfoList("data/geoinfo.csv");
+		dataInfoList = new DataInfoList("data/DataTranslation.csv");
+		// Hand the DailyData class the dataInfoList  
+		DailyData.setDataInfoList(dataInfoList);
+		
+		//countyInfoList = new CountyInfoList("data/polygons.csv", 80.0, -80.0, 10, 50);
+		
+		countyConnector = new CountyConnector(stationInfoList, countyInfoList);
+		
+		stateFrame = new StateFrame("Mesonet Explorer", countyInfoList, countyConnector,
+				stationInfoList, dataInfoList);
+		
+	}
+	/**
+	 * Main program kicks everything off
+	 * 
+	 * @param args
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		CountyExplorer explorer = new CountyExplorer();
+
+	}
+
+}
