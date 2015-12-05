@@ -81,7 +81,7 @@ public class CountyInfoList {
 		// Open the file
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 
-		// FIXED: load in each of the counties from the file and populate
+		// TODO: load in each of the counties from the file and populate
 		// countyList
 
 		// read a line in the csv file
@@ -118,7 +118,7 @@ public class CountyInfoList {
 	public Rectangle getBounds() {
 		// TODO: complete. Hint: look carefully at the Rectangle class
 		Rectangle rec = null;
-		
+
 		return rec;
 	}
 
@@ -137,9 +137,7 @@ public class CountyInfoList {
 
 		// Loop through all counties and add the new delta
 		// TODO: complete
-		for (CountyInfo county: countyList) {
-			
-		}
+
 	}
 
 	/**
@@ -150,9 +148,7 @@ public class CountyInfoList {
 	 */
 	protected void draw(Graphics2D g2) {
 		// TODO: complete
-		for (CountyInfo county: countyList) {
-			county.draw(g2);
-		}
+
 	}
 
 	/**
@@ -166,7 +162,7 @@ public class CountyInfoList {
 	 *         no county that contains the query
 	 */
 	public CountyInfo findCounty(int x, int y) {
-		// FIXED: complete
+		// TODO: complete
 
 		// iterate over all counties and see if the point is within each polygon
 		// returns the CountyInfo if the point is contained within it, otherwise

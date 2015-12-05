@@ -43,7 +43,7 @@ public class CountyInfo {
 	 *            Scale translation from long/lat to screen coordinates
 	 */
 	public CountyInfo(String[] elements, double scaleX, double scaleY) {
-		// FIXED: complete the implementation
+		// TODO: complete the implementation
 
 		// load the name of the county
 		name = elements[0];

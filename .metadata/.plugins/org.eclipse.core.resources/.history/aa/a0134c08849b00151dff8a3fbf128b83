@@ -105,7 +105,7 @@ public class CountyInfoList {
 		Rectangle rec = getBounds();
 
 		// Move all component polygons into the panel view
-		translate(-rec.x + offsetX, -rec.y + offsetY);
+		//translate(-rec.x + offsetX, -rec.y + offsetY);
 
 	}
 

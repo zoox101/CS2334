@@ -43,7 +43,7 @@ public class CountyInfo {
 	 *            Scale translation from long/lat to screen coordinates
 	 */
 	public CountyInfo(String[] elements, double scaleX, double scaleY) {
-		// FIXED: complete the implementation
+		// TODO: complete the implementation
 
 		// load the name of the county
 		name = elements[0];
@@ -107,7 +107,7 @@ public class CountyInfo {
 	 *            Graphics context in which to draw the polygon
 	 */
 	protected void draw(Graphics2D g2) {
-		// FIXED: complete the implementation
+		// TODO: complete the implementation
 		g2.draw(polygon);
 	}
 
@@ -142,7 +142,7 @@ public class CountyInfo {
 	 * @return true if the point x/y is in the polygon
 	 */
 	public boolean contains(int x, int y) {
-		// FIXED: complete the implementation
+		// TODO: complete the implementation
 		if (polygon.contains(x, y)) {
 			return true;
 		} else {

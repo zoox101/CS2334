@@ -118,7 +118,7 @@ public class CountyInfoList {
 	public Rectangle getBounds() {
 		// TODO: complete. Hint: look carefully at the Rectangle class
 		Rectangle rec = null;
-		
+
 		return rec;
 	}
 
@@ -150,9 +150,7 @@ public class CountyInfoList {
 	 */
 	protected void draw(Graphics2D g2) {
 		// TODO: complete
-		for (CountyInfo county: countyList) {
-			county.draw(g2);
-		}
+
 	}
 
 	/**
@@ -166,7 +164,7 @@ public class CountyInfoList {
 	 *         no county that contains the query
 	 */
 	public CountyInfo findCounty(int x, int y) {
-		// FIXED: complete
+		// TODO: complete
 
 		// iterate over all counties and see if the point is within each polygon
 		// returns the CountyInfo if the point is contained within it, otherwise

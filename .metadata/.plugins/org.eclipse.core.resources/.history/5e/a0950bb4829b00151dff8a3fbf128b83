@@ -150,9 +150,7 @@ public class CountyInfoList {
 	 */
 	protected void draw(Graphics2D g2) {
 		// TODO: complete
-		for (CountyInfo county: countyList) {
-			county.draw(g2);
-		}
+
 	}
 
 	/**

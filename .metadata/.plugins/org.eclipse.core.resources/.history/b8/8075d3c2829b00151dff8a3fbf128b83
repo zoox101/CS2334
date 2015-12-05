@@ -44,7 +44,7 @@ public class CountyConnector {
 		stationMap = new HashMap<StationInfo, CountyInfo>();
 				
 		// TODO: complete the implementation
-		//countyInfoList.find
+		countyInfoList.find
 		
 	}
 
